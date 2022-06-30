@@ -28,6 +28,10 @@ Route::get('/imoveis', [\App\Http\Controllers\PropertyController::class,'index']
 // Rota mostrar formulario cadastro
 Route::get('/imoveis/novo', [\App\Http\Controllers\PropertyController::class, 'create']);
 Route::post('/imoveis/store', [\App\Http\Controllers\PropertyController::class, 'store']);
+Route::get('/imoveis/{uname}', [\App\Http\Controllers\PropertyController::class, 'show']);
+
+Route::get('/imoveis/editar/{uname}', [\App\Http\Controllers\PropertyController::class, 'edit']);
+Route::put('/imoveis/update/{uname}', [\App\Http\Controllers\PropertyController::class, 'update']);
 
 //Modelo Resumido inserindo o use Contorller
 //Route::get('/imoveis',[PropertyController::class,'index']);

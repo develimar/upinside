@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+//use App\Http\Controllers\PropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//modelo antigo usado
+//Route::get('/imoveis', 'PropertyController@index');
+
+
+//Modelo informado pelo laravel para usar
+Route::get('/imoveis', [\App\Http\Controllers\PropertyController::class,'index']);
+
+// Rota mostrar formulario cadastro
+Route::get('/imoveis/novo', [\App\Http\Controllers\PropertyController::class, 'create']);
+
+//Modelo Resumido inserindo o use Contorller
+//Route::get('/imoveis',[PropertyController::class,'index']);

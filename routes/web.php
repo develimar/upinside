@@ -33,5 +33,10 @@ Route::get('/imoveis/{uname}', [\App\Http\Controllers\PropertyController::class,
 Route::get('/imoveis/editar/{uname}', [\App\Http\Controllers\PropertyController::class, 'edit']);
 Route::put('/imoveis/update/{uname}', [\App\Http\Controllers\PropertyController::class, 'update']);
 
+Route::get('/imoveis/remover/{uname}', [\App\Http\Controllers\PropertyController::class, 'destroy']);
+
+
+
+
 //Modelo Resumido inserindo o use Contorller
 //Route::get('/imoveis',[PropertyController::class,'index']);

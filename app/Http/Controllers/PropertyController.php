@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -11,8 +12,12 @@ class PropertyController extends Controller
 {
     public function index()
     {
-        $properties = DB::select("SELECT * FROM properties");
+        //usando a facede
+        //$properties = DB::select("SELECT * FROM properties");
         //var_dump($properties);
+
+        //busca usando o model
+        $properties = Property::all();
 
         //Enviando Parametros para a view usando o with
         return view('property.index')->with('properties',$properties);
@@ -23,7 +28,12 @@ class PropertyController extends Controller
 
     public function show($uname)
     {
-        $property = DB::select("SELECT * FROM properties WHERE uname = ?", [$uname]);
+        //Busca com condicionais
+        //$property = DB::select("SELECT * FROM properties WHERE uname = ?", [$uname]);
+
+        //busca com condicional via models
+        $property = Property::where('uname',$uname)->get();
+
         if (!empty($property)){
             return view('property.show')->with('property', $property);
         }else {
@@ -40,21 +50,37 @@ class PropertyController extends Controller
     public function store(Request $request)
     {
         $propertySlug = $this->setName($request->title);
-            $property = [
-            $request->title,
-            $request->description,
-            $request->rental_price,
-            $request->sale_price,
-            $propertySlug
+//            $property = [
+//            $request->title,
+//            $request->description,
+//            $request->rental_price,
+//            $request->sale_price,
+//            $propertySlug
+//        ];
+//
+//        DB::insert("INSERT INTO properties (title, description, rental_price, sale_price, uname) VALUES (?,?,?,?,?)", $property);
+//        return redirect()->action([PropertyController::class,'index']);
+
+        $property = [
+            'title' => $request->title,
+            'description' => $request->description,
+            'rental_price' => $request->rental_price,
+            'sale_price' => $request->sale_price,
+            'uname' => $propertySlug
         ];
 
-        DB::insert("INSERT INTO properties (title, description, rental_price, sale_price, uname) VALUES (?,?,?,?,?)", $property);
+        Property::create($property);
         return redirect()->action([PropertyController::class,'index']);
     }
 
     public function edit($uname)
     {
-        $property = DB::select("SELECT * FROM properties WHERE uname = ?", [$uname]);
+        //Busca via faced
+        //$property = DB::select("SELECT * FROM properties WHERE uname = ?", [$uname]);
+
+        //busca com condicional via models
+        $property = Property::where('uname',$uname)->get();
+
         if (!empty($property)){
             return view('property.edit')->with('property', $property);
         }else {
@@ -66,22 +92,37 @@ class PropertyController extends Controller
     {
         $propertySlug = $this->setName($request->title);
 
-        $property = [
-            $request->title,
-            $request->description,
-            $request->rental_price,
-            $request->sale_price,
-            $propertySlug,
-            $id
-        ];
+//        $property = [
+//            $request->title,
+//            $request->description,
+//            $request->rental_price,
+//            $request->sale_price,
+//            $propertySlug,
+//            $id
+//        ];
+//
+//        DB::update ("UPDATE properties  SET title = ?, description = ?, rental_price = ?, sale_price = ?, uname = ? WHERE id = ?", $property);
 
-        DB::update ("UPDATE properties  SET title = ?, description = ?, rental_price = ?, sale_price = ?, uname = ? WHERE id = ?", $property);
+        $property = Property::find($id);
+
+        $property->title = $request->title;
+        $property->description = $request->description;
+        $property->rental_price = $request->rental_price;
+        $property->sale_price = $request->sale_price;
+        $property->uname = $propertySlug;
+        $property->save();
+
         return redirect()->action([PropertyController::class,'index']);
     }
 
     public function destroy($uname)
     {
-        $property = DB::select("SELECT * FROM properties WHERE uname = ?", [$uname]);
+        //Busca com condicional
+        //$property = DB::select("SELECT * FROM properties WHERE uname = ?", [$uname]);
+
+        //busca com condicional via models
+        $property = Property::where('uname',$uname)->get();
+
         if (!empty($property)){
             DB::delete("DELETE FROM properties WHERE uname = ? ",  [$uname]);
         }
@@ -93,7 +134,12 @@ class PropertyController extends Controller
     private function setName($title){
 
         $propertySlug = Str::slug($title);
-        $properties = DB::select("SELECT * FROM properties");
+
+        //Busca usada pela facede
+        //$properties = DB::select("SELECT * FROM properties");
+
+        //Busca Usando a Model Properties
+        $properties = Property::all();
 
         $t = 0;
         foreach ($properties as $property){

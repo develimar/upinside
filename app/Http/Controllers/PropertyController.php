@@ -61,16 +61,20 @@ class PropertyController extends Controller
 //        DB::insert("INSERT INTO properties (title, description, rental_price, sale_price, uname) VALUES (?,?,?,?,?)", $property);
 //        return redirect()->action([PropertyController::class,'index']);
 
-        $property = [
-            'title' => $request->title,
-            'description' => $request->description,
-            'rental_price' => $request->rental_price,
-            'sale_price' => $request->sale_price,
-            'uname' => $propertySlug
-        ];
+            $property = [
+                'title' => $request->title,
+                'description' => $request->description,
+                'rental_price' => $request->rental_price,
+                'sale_price' => $request->sale_price,
+                'uname' => $propertySlug
+            ];
 
-        Property::create($property);
-        return redirect()->action([PropertyController::class,'index']);
+        if (!in_array(null, $property)){
+            Property::create($property);
+            return redirect()->action([PropertyController::class,'index']);
+        }else{
+            return redirect()->action([PropertyController::class,'index']);
+        }
     }
 
     public function edit($uname)

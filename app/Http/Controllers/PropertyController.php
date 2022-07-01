@@ -124,7 +124,11 @@ class PropertyController extends Controller
         $property = Property::where('uname',$uname)->get();
 
         if (!empty($property)){
-            DB::delete("DELETE FROM properties WHERE uname = ? ",  [$uname]);
+            //Delete Usando Facede
+            //DB::delete("DELETE FROM properties WHERE uname = ? ",  [$uname]);
+
+            //Delete usando model
+            Property::destroy($property);
         }
         return redirect()->action([PropertyController::class,'index']);
     }

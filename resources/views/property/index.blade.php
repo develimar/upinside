@@ -1,6 +1,7 @@
-<h1>Listagem de Produtos</h1>
+@extends('property.master')
 
-<p><a href="{{ url('/imoveis/novo') }}">Cadastrar novo Imovel</a></p>
+@section('content')
+<h1>Listagem de Produtos</h1>
 
 @if(!empty($properties))
     <table>
@@ -22,3 +23,4 @@
         @endforeach
     </table>
 @endif
+@endsection

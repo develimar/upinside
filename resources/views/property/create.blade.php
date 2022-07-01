@@ -1,3 +1,7 @@
+@extends('property.master')
+
+@section('content')
+
 <h1>Formulario de Cadastro::Imoveis</h1>
 
 
@@ -27,3 +31,4 @@
     <button type="submit">Cadastrar Imovel</button>
 
 </form>
+@endsection

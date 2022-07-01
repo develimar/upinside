@@ -1,3 +1,6 @@
+@extends('property.master')
+
+@section('content')
 <h1>Pagina Single</h1>
 
 @if(!empty($property))
@@ -8,5 +11,5 @@
         <p>Valor de Venda: R$ {{number_format($prop->sale_price,2,',','.')}}</p>
     @endforeach
 @endif
-
+@endsection
 
